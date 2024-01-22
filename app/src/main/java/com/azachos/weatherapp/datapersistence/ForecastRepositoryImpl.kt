@@ -1,6 +1,5 @@
 package com.azachos.weatherapp.datapersistence
 
-import android.util.Log
 import com.azachos.weatherapp.api.RetrofitInstance
 import com.azachos.weatherapp.model.ForecastResponse
 import com.azachos.weatherapp.utils.Constants.Companion.HTTP.GENERIC_ERROR_MESSAGE
@@ -17,7 +16,6 @@ class ForecastRepositoryImpl @Inject constructor() : ForecastRepository {
         try {
             emit(Resource.Loading())
             val response = RetrofitInstance.api.getForecast()
-            Log.d("WeatherApp1", response.body().toString())
             when (response.isSuccessful) {
                 true -> {
                     emit(Resource.Success(response.body()!!))

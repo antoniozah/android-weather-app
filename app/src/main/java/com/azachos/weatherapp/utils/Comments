@@ -1,0 +1,28 @@
+
+**** Repository
+    1. Get as parameter the Object that ViewModel reads
+    2. Loading State
+    3. Check Connection Internet state && Manage Connection State (Wifi or Cellular)
+        a. Online
+            i. Convert every time object to DTO object (Object name appended with DTO)
+        b. Offline
+            i. Offline Message
+            ii. Retrieve Data from Local DB
+        c. Connection restriction
+
+    4. Execute HTTPS request
+    5. Successful request
+        a. Convert Response to DAO
+        b. Update insert (for Local DB)
+    6. Failed request
+
+
+ *** ViewModel
+  1. The ViewModel must have Repository and Dao as parameters
+  2. We need a variable (MutableLiveData) that listens to DAO changes
+
+
+  Tasks
+  1. Convert Retrofit to KTOR
+  2. Network Status(Online/Offline) and Network State if Online(Wifi/Cellular)
+  3. Local DB with ROOM

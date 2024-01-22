@@ -14,4 +14,5 @@ interface ForecastApi {
         @Query("days")
         forecastDays: Int = 3
     ) : Response<ForecastResponse>
+
 }
