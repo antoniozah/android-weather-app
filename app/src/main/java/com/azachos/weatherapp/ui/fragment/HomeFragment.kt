@@ -1,9 +1,11 @@
 package com.azachos.weatherapp.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import coil.load
@@ -23,12 +25,16 @@ class HomeFragment : Fragment() {
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         observeData()
-        fetchData()
+//        fetchData()
+        uiActions()
         return binding.root
     }
 
     private fun observeData() {
         viewModel.errorMessage.observe(this.viewLifecycleOwner) {
+        }
+        viewModel.locationInputField.observe(this.viewLifecycleOwner) {locationInputText ->
+            Log.d("WEATHER_APP", "InputLocation: $locationInputText")
         }
         viewModel.loadingData.observe(this.viewLifecycleOwner) {loadingValue ->
             when(loadingValue) {
@@ -55,7 +61,24 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun uiActions() {
+        onLocationChangedText()
+        onLocationInputIconAction()
+    }
+    
+    private fun onLocationChangedText() {
+        binding.homeLocationTextInputLayout.editText?.doOnTextChanged { editText, _, _, _ ->
+            viewModel.changeLocationInputField(editText.toString())
+        }
+    }
+
+    private fun onLocationInputIconAction() {
+        binding.homeLocationTextInputLayout.setEndIconOnClickListener {
+            fetchData()
+        }
+    }
+
     private fun fetchData() {
-        viewModel.getForecastData("Thessaloniki")
+        viewModel.getForecastData()
     }
 }

@@ -21,23 +21,32 @@ class HomeViewModel  @Inject constructor(
     private var _forecastDays: MutableLiveData<Int> = MutableLiveData(3)
     val forecastDays: LiveData<Int> = _forecastDays
 
+    private var _locationInputField: MutableLiveData<String> = MutableLiveData()
+    val locationInputField: LiveData<String> = _locationInputField
+
     private var _errorMessage: MutableLiveData<String?> = MutableLiveData()
     val errorMessage: LiveData<String?> = _errorMessage
 
-    fun getForecastData(location: String) = viewModelScope.launch {
-        forecastDays.value?.let {
-            forecastRepository.getLocationForecast(location, 3).collect { forecastResponse ->
-                when(forecastResponse) {
-                    is Resource.Success -> {
-                        _forecastLocationData.value = forecastResponse.data
-                        setLoading(false)
-                    }
-                    is Resource.Error -> {
-                        _errorMessage.value = forecastResponse.message
-                        setLoading(false)
-                    }
-                    is Resource.Loading -> {
-                        setLoading(true)
+    fun changeLocationInputField(value: String) {
+        _locationInputField.value = value
+    }
+
+    fun getForecastData() = viewModelScope.launch {
+        if (locationInputField.value?.isNotEmpty() == true) {
+            forecastDays.value?.let {
+                forecastRepository.getLocationForecast(locationInputField.value.toString(), 3).collect { forecastResponse ->
+                    when(forecastResponse) {
+                        is Resource.Success -> {
+                            _forecastLocationData.value = forecastResponse.data
+                            setLoading(false)
+                        }
+                        is Resource.Error -> {
+                            _errorMessage.value = forecastResponse.message
+                            setLoading(false)
+                        }
+                        is Resource.Loading -> {
+                            setLoading(true)
+                        }
                     }
                 }
             }

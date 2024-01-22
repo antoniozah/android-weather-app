@@ -15,7 +15,7 @@ class ForecastRepositoryImpl @Inject constructor() : ForecastRepository {
     ): Flow<Resource<ForecastResponse>> = flow{
         try {
             emit(Resource.Loading())
-            val response = RetrofitInstance.api.getForecast()
+            val response = RetrofitInstance.api.getForecast(location)
             when (response.isSuccessful) {
                 true -> {
                     emit(Resource.Success(response.body()!!))

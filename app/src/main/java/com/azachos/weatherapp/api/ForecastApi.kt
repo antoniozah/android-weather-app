@@ -10,7 +10,7 @@ interface ForecastApi {
     @GET("/forecast.json")
     suspend fun getForecast(
         @Query("q")
-        locationValue: String = "Thessaloniki",
+        locationValue: String,
         @Query("days")
         forecastDays: Int = 3
     ) : Response<ForecastResponse>
