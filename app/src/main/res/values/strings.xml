@@ -2,4 +2,7 @@
     <string name="app_name">WeatherApp</string>
     <string name="celcius_temperature">__°C</string>
     <string name="location_info">%1$s, %2$s</string>
+    <!-- Errors -->
+    <string name="generic_error_message">Something went wrong!</string>
+    <string name="no_connection_error_message">No Internet Connection!</string>
 </resources>

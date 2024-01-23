@@ -12,5 +12,6 @@ object Constants {
 
     object ERROR {
         const val GENERIC_ERROR_MESSAGE = "Something went wrong!"
+        const val NO_CONNECTION_ERROR_MESSAGE = "No internet Connection!"
     }
 }

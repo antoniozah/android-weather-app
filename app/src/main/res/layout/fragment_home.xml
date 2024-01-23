@@ -1,86 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingHorizontal="16dp"
     tools:context=".ui.fragment.HomeFragment">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/loader"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginBottom="40dp"
-        android:visibility="gone"
-        android:src="@drawable/ic_loading_img"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/home_weather_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28sp"
-        android:text="......"
-        tools:text="Thessaloniki"
-        android:textSize="36sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/home_weather_condition"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="28sp"
-        tools:text="Rainy"
-        app:layout_constraintTop_toBottomOf="@id/home_weather_location"
-        app:layout_constraintStart_toStartOf="@id/home_weather_location"
-        app:layout_constraintEnd_toEndOf="@id/home_weather_location"
-        />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/home_weather_img"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
-        android:layout_marginTop="16dp"
-        tools:src="@drawable/noimage"
-        android:scaleType="fitXY"
-        app:layout_constraintEnd_toEndOf="@id/home_weather_location"
-        app:layout_constraintStart_toStartOf="@id/home_weather_location"
-        app:layout_constraintTop_toBottomOf="@id/home_weather_condition" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/home_weather_temperature"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="@string/celcius_temperature"
-        android:textSize="48sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@id/home_weather_img"
-        app:layout_constraintStart_toStartOf="@id/home_weather_img"
-        app:layout_constraintTop_toBottomOf="@id/home_weather_img" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/home_location_text_input_layout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/home_main_layout_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        app:endIconMode="custom"
-        app:endIconDrawable="@drawable/ic_search_icon"
-        android:hint="Location"
-        app:layout_constraintTop_toBottomOf="@id/home_weather_temperature">
+        android:layout_height="match_parent"
+        android:paddingHorizontal="16dp"
+        android:visibility="visible">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/home_location_text_input_field"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/home_weather_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28sp"
+            android:text="......"
+            android:textSize="36sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Thessaloniki" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/home_weather_condition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="28sp"
+            app:layout_constraintEnd_toEndOf="@id/home_weather_location"
+            app:layout_constraintStart_toStartOf="@id/home_weather_location"
+            app:layout_constraintTop_toBottomOf="@id/home_weather_location"
+            tools:text="Rainy" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/home_weather_img"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="fitXY"
+            app:layout_constraintEnd_toEndOf="@id/home_weather_location"
+            app:layout_constraintStart_toStartOf="@id/home_weather_location"
+            app:layout_constraintTop_toBottomOf="@id/home_weather_condition"
+            tools:src="@drawable/noimage" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/home_weather_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/celcius_temperature"
+            android:textSize="48sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/home_weather_img"
+            app:layout_constraintStart_toStartOf="@id/home_weather_img"
+            app:layout_constraintTop_toBottomOf="@id/home_weather_img" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/home_location_text_input_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            android:layout_marginTop="24dp"
+            android:hint="Location"
+            app:endIconDrawable="@drawable/ic_search_icon"
+            app:endIconMode="custom"
+            app:layout_constraintTop_toBottomOf="@id/home_weather_temperature">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/home_location_text_input_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <FrameLayout
+        android:id="@+id/home_loader_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:alpha="1"
+        android:visibility="gone" >
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/loader"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/ic_loading_img"
+            android:layout_gravity="center"
+            />
+    </FrameLayout>
+
+    <!-- Include the error layout -->
+    <FrameLayout
+        android:id="@+id/home_error_layout_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+        <include
+            android:id="@+id/home_error_layout"
+            layout="@layout/layout_no_internet_connection"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

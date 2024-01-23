@@ -1,5 +1,6 @@
 package com.azachos.weatherapp.ui.fragment
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import coil.load
+import com.azachos.weatherapp.MyApp.Companion.applicationContent
 import com.azachos.weatherapp.R
 import com.azachos.weatherapp.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,15 +32,46 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeData() {
-        viewModel.errorMessage.observe(this.viewLifecycleOwner) {
+        viewModel.errorMessage.observe(this.viewLifecycleOwner) {textError ->
+            binding.homeErrorLayout.noInternetConnectionText.text = textError
+            Log.d("WEATHER_APP", "ERRORFrag: $textError")
         }
         viewModel.locationInputField.observe(this.viewLifecycleOwner) {locationInputText ->
             Log.d("WEATHER_APP", "InputLocation: $locationInputText")
         }
         viewModel.loadingData.observe(this.viewLifecycleOwner) {loadingValue ->
             when(loadingValue) {
-                true -> binding.loader.visibility = View.VISIBLE
-                false -> binding.loader.visibility = View.GONE
+                true -> showLoadingState()
+                false -> binding.homeLoaderContainer.visibility = View.GONE
+            }
+        }
+        viewModel.hasError.observe(this.viewLifecycleOwner) { errorValue ->
+            when(errorValue) {
+                true -> showErrorState()
+                false -> hideErrorState()
+            }
+        }
+        viewModel.hasNetwork.observe(this.viewLifecycleOwner) { hasNetworkValue ->
+            when(hasNetworkValue) {
+                true -> {
+                    binding.homeErrorLayout.noInternetConnectionImg.apply {
+                        setImageResource(R.drawable.ic_generic_error)
+                        imageTintList = ColorStateList.valueOf(applicationContent.getColor(R.color.purple_200))
+                    }
+                }
+                false  -> {
+                    binding.homeErrorLayout.noInternetConnectionImg.apply {
+                        setImageResource(R.drawable.ic_no_internet_connection)
+                        imageTintList = ColorStateList.valueOf(applicationContent.getColor(R.color.black))
+                    }
+
+                }
+                else -> {
+                    binding.homeErrorLayout.noInternetConnectionImg.apply{
+                        setImageResource(R.drawable.ic_generic_error)
+                        imageTintList = ColorStateList.valueOf(applicationContent.getColor(R.color.purple_200))
+                    }
+                }
             }
         }
         viewModel.forecastLocationData.observe(this.viewLifecycleOwner) { forecastData ->
@@ -63,6 +96,7 @@ class HomeFragment : Fragment() {
     private fun uiActions() {
         onLocationChangedText()
         onLocationInputIconAction()
+        clearErrorBtnAction()
     }
     
     private fun onLocationChangedText() {
@@ -79,5 +113,26 @@ class HomeFragment : Fragment() {
 
     private fun fetchData() {
         viewModel.getForecastData()
+    }
+
+    private fun showLoadingState() {
+        binding.homeMainLayoutContainer.visibility = View.GONE
+        binding.homeLoaderContainer.visibility = View.VISIBLE
+    }
+
+    private fun showErrorState() {
+        binding.homeMainLayoutContainer.visibility = View.GONE
+        binding.homeErrorLayoutContainer.visibility = View.VISIBLE
+    }
+
+    private fun hideErrorState() {
+        binding.homeErrorLayoutContainer.visibility = View.GONE
+        binding.homeMainLayoutContainer.visibility = View.VISIBLE
+    }
+
+    private fun clearErrorBtnAction() {
+        binding.homeErrorLayout.noInternetClearButton.setOnClickListener {
+            viewModel.setHasError(false)
+        }
     }
 }
