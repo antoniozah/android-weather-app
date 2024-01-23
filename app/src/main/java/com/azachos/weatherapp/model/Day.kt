@@ -1,11 +1,13 @@
 package com.azachos.weatherapp.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Day(
     val avghumidity: Int,
     val avgtemp_c: Double,
     val avgtemp_f: Double,
     val avgvis_km: Double,
-    val avgvis_miles: Int,
     val condition: Condition,
     val daily_chance_of_rain: Int,
     val daily_chance_of_snow: Int,
@@ -14,5 +16,5 @@ data class Day(
     val maxtemp_c: Double,
     val maxwind_kph: Double,
     val mintemp_c: Double,
-    val uv: Int
+    val uv: Double
 )

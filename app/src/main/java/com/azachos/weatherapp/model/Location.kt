@@ -1,5 +1,8 @@
 package com.azachos.weatherapp.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Location(
     val country: String,
     val lat: Double,

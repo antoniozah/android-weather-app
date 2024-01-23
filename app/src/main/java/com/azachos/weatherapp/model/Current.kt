@@ -1,5 +1,8 @@
 package com.azachos.weatherapp.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Current(
     val cloud: Int,
     val condition: Condition,
@@ -9,10 +12,8 @@ data class Current(
     val last_updated: String,
     val last_updated_epoch: Int,
     val pressure_in: Double,
-    val pressure_mb: Int,
+    val pressure_mb: Double,
     val temp_c: Double,
-    val temp_f: Double,
-    val uv: Int,
+    val uv: Double,
     val wind_dir: String,
-    val wind_kph: Double,
 )

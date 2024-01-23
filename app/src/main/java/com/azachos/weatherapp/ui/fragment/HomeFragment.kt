@@ -25,7 +25,6 @@ class HomeFragment : Fragment() {
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         observeData()
-//        fetchData()
         uiActions()
         return binding.root
     }

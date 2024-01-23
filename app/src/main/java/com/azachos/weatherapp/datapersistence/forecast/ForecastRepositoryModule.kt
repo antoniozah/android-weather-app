@@ -1,4 +1,4 @@
-package com.azachos.weatherapp.datapersistence
+package com.azachos.weatherapp.datapersistence.forecast
 
 import dagger.Binds
 import dagger.Module

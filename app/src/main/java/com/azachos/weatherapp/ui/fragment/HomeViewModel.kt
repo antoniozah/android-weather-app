@@ -1,10 +1,12 @@
 package com.azachos.weatherapp.ui.fragment
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.azachos.weatherapp.datapersistence.ForecastRepository
+import com.azachos.weatherapp.datapersistence.forecast.ForecastRepository
 import com.azachos.weatherapp.model.ForecastResponse
+import com.azachos.weatherapp.model.forecast.dto.ForecastDTO
 import com.azachos.weatherapp.ui.BaseViewModel
 import com.azachos.weatherapp.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,19 +35,24 @@ class HomeViewModel  @Inject constructor(
 
     fun getForecastData() = viewModelScope.launch {
         if (locationInputField.value?.isNotEmpty() == true) {
-            forecastDays.value?.let {
-                forecastRepository.getLocationForecast(locationInputField.value.toString(), 3).collect { forecastResponse ->
+            forecastDays.value?.let { forecastDaysNumber ->
+                Log.d("WEATHER_APP", "Viewmodel getForecastData fired")
+                forecastRepository.getLocationForecast(
+                    ForecastDTO(locationInputField.value.toString(), forecastDaysNumber)).collect { forecastResponse ->
                     when(forecastResponse) {
                         is Resource.Success -> {
-                            _forecastLocationData.value = forecastResponse.data
+                            _forecastLocationData.postValue(forecastResponse.data)
                             setLoading(false)
+                            Log.d("WEATHER_APP", "SUCCESS: $forecastResponse")
                         }
                         is Resource.Error -> {
-                            _errorMessage.value = forecastResponse.message
+                            _errorMessage.postValue(forecastResponse.message)
                             setLoading(false)
+                            Log.d("WEATHER_APP", "ERROR: $forecastResponse")
                         }
                         is Resource.Loading -> {
                             setLoading(true)
+                            Log.d("WEATHER_APP", "LOADING: $forecastResponse")
                         }
                     }
                 }
