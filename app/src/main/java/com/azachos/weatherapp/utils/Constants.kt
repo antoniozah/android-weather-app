@@ -6,7 +6,7 @@ object Constants {
         const val BASE_URL = "weatherapi-com.p.rapidapi.com"
     }
 
-    object API_ENDPOINT {
+    object API {
         const val GET_FORECAST = "forecast.json"
     }
 

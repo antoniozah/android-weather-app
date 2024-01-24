@@ -20,27 +20,13 @@ import java.io.IOException
 
 abstract class BaseRepository() {
 
-    protected suspend inline fun <reified T> mapResponse(response: HttpResponse): T =
-        withContext(Dispatchers.IO) {
-            response.body<T>()
-        }
-
     protected suspend fun <T> executeRequest(
         apiCall: suspend () -> HttpResponse,
         mapper: suspend (HttpResponse) -> T,
         hasNetworkType: Boolean?
     ): Flow<Resource<T>> = flow {
         try {
-//            if(hasNetworkType) {
-//                when(getNetworkType()) {
-//                     "WIFI" -> {
-//
-//                    }
-//                    "CELLULAR" -> {
-//
-//                    }
-//                }
-//            }
+        //TODO:: To add network type handing logic when we will need it
             if (isNetworkAvailable()) {
                 coroutineScope {
                     emit(Resource.Loading())
@@ -69,26 +55,24 @@ abstract class BaseRepository() {
     }
 
     private fun isNetworkAvailable(): Boolean {
-        val connectivityManager =
-            applicationContent.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkCapabilities =
-            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-
+        val networkCapabilities = getNetworkCapabilities()
         return networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
             ?: false
     }
 
     private fun getNetworkType(): String {
-        val connectivityManager =
-            applicationContent.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkCapabilities =
-            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-
+        val networkCapabilities = getNetworkCapabilities()
         return when {
             networkCapabilities?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) == true -> "WIFI"
             networkCapabilities?.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) == true -> "CELLULAR"
             else -> "UNKNOWN"
         }
+    }
+
+    private fun getNetworkCapabilities(): NetworkCapabilities? {
+        val connectivityManager =
+            applicationContent.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        return connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
     }
 
 }
