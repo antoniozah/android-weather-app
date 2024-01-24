@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class ErrorMapperImpl @Inject constructor() : ErrorMapper {
     override fun mapErrorToMessage(errorCode: String): String {
-        return when(errorCode) {
+        return when (errorCode) {
             NO_CONNECTION_ERROR_MESSAGE -> applicationContent.getString(R.string.no_connection_error_message)
             else -> errorCode
         }

@@ -12,7 +12,7 @@ object ErrorMapperModule {
 
     @Provides
     @Singleton
-    fun provideErrorMapper() : ErrorMapper {
+    fun provideErrorMapper(): ErrorMapper {
         return ErrorMapperImpl()
     }
 }

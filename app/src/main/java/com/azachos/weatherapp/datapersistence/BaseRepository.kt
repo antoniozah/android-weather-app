@@ -24,11 +24,12 @@ abstract class BaseRepository() {
         withContext(Dispatchers.IO) {
             response.body<T>()
         }
+
     protected suspend fun <T> executeRequest(
         apiCall: suspend () -> HttpResponse,
         mapper: suspend (HttpResponse) -> T,
         hasNetworkType: Boolean?
-    ) : Flow<Resource<T>> = flow {
+    ): Flow<Resource<T>> = flow {
         try {
 //            if(hasNetworkType) {
 //                when(getNetworkType()) {
@@ -40,18 +41,23 @@ abstract class BaseRepository() {
 //                    }
 //                }
 //            }
-            if(isNetworkAvailable()) {
+            if (isNetworkAvailable()) {
                 coroutineScope {
                     emit(Resource.Loading())
                     val response = withContext(Dispatchers.IO) {
                         apiCall.invoke()
                     }
 
-                    if(response.status.isSuccess()) {
+                    if (response.status.isSuccess()) {
                         val result = mapper.invoke(response)
                         emit(Resource.Success(result))
                     } else {
-                        emit(Resource.Error(response.body<ErrorHttpResponse>().error?.message ?: GENERIC_ERROR_MESSAGE, null, true))
+                        emit(
+                            Resource.Error(
+                                response.body<ErrorHttpResponse>().error?.message
+                                    ?: GENERIC_ERROR_MESSAGE, null, true
+                            )
+                        )
                     }
                 }
             } else {
@@ -63,15 +69,20 @@ abstract class BaseRepository() {
     }
 
     private fun isNetworkAvailable(): Boolean {
-        val connectivityManager = applicationContent.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkCapabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        val connectivityManager =
+            applicationContent.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkCapabilities =
+            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
 
-        return networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) ?: false
+        return networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            ?: false
     }
 
     private fun getNetworkType(): String {
-        val connectivityManager = applicationContent.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkCapabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        val connectivityManager =
+            applicationContent.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkCapabilities =
+            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
 
         return when {
             networkCapabilities?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) == true -> "WIFI"

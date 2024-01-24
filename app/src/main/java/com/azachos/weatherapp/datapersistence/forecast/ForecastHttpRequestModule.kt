@@ -11,7 +11,7 @@ import javax.inject.Singleton
 object ForecastHttpRequestModule {
     @Provides
     @Singleton
-    fun provideForecastHttpRequest() : ForecastHttpRequest {
+    fun provideForecastHttpRequest(): ForecastHttpRequest {
         return ForecastHttpRequest()
     }
 }

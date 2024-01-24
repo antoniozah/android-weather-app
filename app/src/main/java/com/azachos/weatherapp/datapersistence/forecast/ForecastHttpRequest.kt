@@ -7,10 +7,10 @@ import io.ktor.client.statement.HttpResponse
 import io.ktor.http.HttpMethod
 import javax.inject.Inject
 
-class ForecastHttpRequest @Inject constructor(){
-    suspend fun getForecast(params: ForecastDTO) : HttpResponse =
+class ForecastHttpRequest @Inject constructor() {
+    suspend fun getForecast(params: ForecastDTO): HttpResponse =
         HttpHelper.instance.request(
-            GET_FORECAST+"?q=${params.location}&days=${params.days}",
+            GET_FORECAST + "?q=${params.location}&days=${params.days}",
             HttpMethod.Get,
             null
         )

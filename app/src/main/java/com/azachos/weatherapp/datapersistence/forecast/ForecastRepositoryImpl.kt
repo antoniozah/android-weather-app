@@ -9,13 +9,13 @@ import javax.inject.Inject
 
 class ForecastRepositoryImpl @Inject constructor(
     private val forecastHttpRequest: ForecastHttpRequest,
-) :  BaseRepository(), ForecastRepository {
+) : BaseRepository(), ForecastRepository {
     override suspend fun getLocationForecast(
         forecastParams: ForecastDTO
     ): Flow<Resource<ForecastResponse>> =
-            executeRequest(
-                apiCall = { forecastHttpRequest.getForecast(forecastParams) },
-                mapper = { httpResponse -> mapResponse<ForecastResponse>(httpResponse) },
-                null
-            )
+        executeRequest(
+            apiCall = { forecastHttpRequest.getForecast(forecastParams) },
+            mapper = { httpResponse -> mapResponse<ForecastResponse>(httpResponse) },
+            null
+        )
 }

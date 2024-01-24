@@ -83,18 +83,17 @@
         android:id="@+id/home_loader_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:alpha="1"
         android:background="@color/white"
         android:orientation="horizontal"
-        android:alpha="1"
-        android:visibility="gone" >
+        android:visibility="gone">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/loader"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:src="@drawable/ic_loading_img"
             android:layout_gravity="center"
-            />
+            android:src="@drawable/ic_loading_img" />
     </FrameLayout>
 
     <!-- Include the error layout -->
@@ -103,6 +102,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone">
+
         <include
             android:id="@+id/home_error_layout"
             layout="@layout/layout_no_internet_connection"

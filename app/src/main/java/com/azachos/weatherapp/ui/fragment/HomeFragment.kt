@@ -32,44 +32,49 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeData() {
-        viewModel.errorMessage.observe(this.viewLifecycleOwner) {textError ->
+        viewModel.errorMessage.observe(this.viewLifecycleOwner) { textError ->
             binding.homeErrorLayout.noInternetConnectionText.text = textError
             Log.d("WEATHER_APP", "ERRORFrag: $textError")
         }
-        viewModel.locationInputField.observe(this.viewLifecycleOwner) {locationInputText ->
+        viewModel.locationInputField.observe(this.viewLifecycleOwner) { locationInputText ->
             Log.d("WEATHER_APP", "InputLocation: $locationInputText")
         }
-        viewModel.loadingData.observe(this.viewLifecycleOwner) {loadingValue ->
-            when(loadingValue) {
+        viewModel.loadingData.observe(this.viewLifecycleOwner) { loadingValue ->
+            when (loadingValue) {
                 true -> showLoadingState()
                 false -> binding.homeLoaderContainer.visibility = View.GONE
             }
         }
         viewModel.hasError.observe(this.viewLifecycleOwner) { errorValue ->
-            when(errorValue) {
+            when (errorValue) {
                 true -> showErrorState()
                 false -> hideErrorState()
             }
         }
         viewModel.hasNetwork.observe(this.viewLifecycleOwner) { hasNetworkValue ->
-            when(hasNetworkValue) {
+            when (hasNetworkValue) {
                 true -> {
                     binding.homeErrorLayout.noInternetConnectionImg.apply {
                         setImageResource(R.drawable.ic_generic_error)
-                        imageTintList = ColorStateList.valueOf(applicationContent.getColor(R.color.purple_200))
+                        imageTintList =
+                            ColorStateList.valueOf(applicationContent.getColor(R.color.purple_200))
                     }
                 }
-                false  -> {
+
+                false -> {
                     binding.homeErrorLayout.noInternetConnectionImg.apply {
                         setImageResource(R.drawable.ic_no_internet_connection)
-                        imageTintList = ColorStateList.valueOf(applicationContent.getColor(R.color.black))
+                        imageTintList =
+                            ColorStateList.valueOf(applicationContent.getColor(R.color.black))
                     }
 
                 }
+
                 else -> {
-                    binding.homeErrorLayout.noInternetConnectionImg.apply{
+                    binding.homeErrorLayout.noInternetConnectionImg.apply {
                         setImageResource(R.drawable.ic_generic_error)
-                        imageTintList = ColorStateList.valueOf(applicationContent.getColor(R.color.purple_200))
+                        imageTintList =
+                            ColorStateList.valueOf(applicationContent.getColor(R.color.purple_200))
                     }
                 }
             }
@@ -79,7 +84,7 @@ class HomeFragment : Fragment() {
                 binding.homeWeatherTemperature.text =
                     String.format("%.1f °C", currentValue.temp_c)
                 binding.homeWeatherImg
-                    .load("https:${currentValue.condition.icon}"){
+                    .load("https:${currentValue.condition.icon}") {
                         crossfade(true)
                         placeholder(R.drawable.ic_animation_loading_img)
                         error(R.drawable.noimage)
@@ -98,7 +103,7 @@ class HomeFragment : Fragment() {
         onLocationInputIconAction()
         clearErrorBtnAction()
     }
-    
+
     private fun onLocationChangedText() {
         binding.homeLocationTextInputLayout.editText?.doOnTextChanged { editText, _, _, _ ->
             viewModel.changeLocationInputField(editText.toString())

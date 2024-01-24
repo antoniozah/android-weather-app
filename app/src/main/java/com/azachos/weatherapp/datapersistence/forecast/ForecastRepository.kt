@@ -6,5 +6,5 @@ import com.azachos.weatherapp.utils.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface ForecastRepository {
-    suspend fun getLocationForecast(forecastParams: ForecastDTO) : Flow<Resource<ForecastResponse>>
+    suspend fun getLocationForecast(forecastParams: ForecastDTO): Flow<Resource<ForecastResponse>>
 }

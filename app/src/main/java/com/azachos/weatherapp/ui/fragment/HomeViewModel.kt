@@ -12,11 +12,10 @@ import com.azachos.weatherapp.ui.BaseViewModel
 import com.azachos.weatherapp.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.util.logging.ErrorManager
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel  @Inject constructor(
+class HomeViewModel @Inject constructor(
     private val forecastRepository: ForecastRepository,
     private val errorMapper: ErrorMapper
 ) : BaseViewModel() {
@@ -40,8 +39,9 @@ class HomeViewModel  @Inject constructor(
         if (locationInputField.value?.isNotEmpty() == true) {
             forecastDays.value?.let { forecastDaysNumber ->
                 forecastRepository.getLocationForecast(
-                    ForecastDTO(locationInputField.value.toString(), forecastDaysNumber)).collect { forecastResponse ->
-                    when(forecastResponse) {
+                    ForecastDTO(locationInputField.value.toString(), forecastDaysNumber)
+                ).collect { forecastResponse ->
+                    when (forecastResponse) {
                         is Resource.Success -> {
                             _forecastLocationData.postValue(forecastResponse.data)
                             setLoading(false)
@@ -49,6 +49,7 @@ class HomeViewModel  @Inject constructor(
                             setLoading(false)
                             setHasError(false);
                         }
+
                         is Resource.Error -> {
                             _errorMessage.postValue(forecastResponse.message?.let {
                                 errorMapper.mapErrorToMessage(it)
@@ -60,6 +61,7 @@ class HomeViewModel  @Inject constructor(
                             setLoading(false)
                             setHasError(true);
                         }
+
                         is Resource.Loading -> {
                             setLoading(true)
                         }
