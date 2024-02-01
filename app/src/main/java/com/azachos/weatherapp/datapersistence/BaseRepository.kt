@@ -3,8 +3,9 @@ package com.azachos.weatherapp.datapersistence
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.util.Log
 import com.azachos.weatherapp.MyApp.Companion.applicationContent
-import com.azachos.weatherapp.model.ErrorHttpResponse
+import com.azachos.weatherapp.model.forecast.ErrorHttpResponse
 import com.azachos.weatherapp.utils.Constants.ERROR.GENERIC_ERROR_MESSAGE
 import com.azachos.weatherapp.utils.Constants.ERROR.NO_CONNECTION_ERROR_MESSAGE
 import com.azachos.weatherapp.utils.Resource
@@ -22,11 +23,12 @@ abstract class BaseRepository() {
 
     protected suspend fun <T> executeRequest(
         apiCall: suspend () -> HttpResponse,
-        mapper: suspend (HttpResponse) -> T,
+        httpResponse: suspend (HttpResponse) -> T,
         hasNetworkType: Boolean?
     ): Flow<Resource<T>> = flow {
         try {
         //TODO:: To add network type handing logic when we will need it
+            Log.d("WEATHER_APP", "Network Type: ${getNetworkType()}")
             if (isNetworkAvailable()) {
                 coroutineScope {
                     emit(Resource.Loading())
@@ -35,7 +37,7 @@ abstract class BaseRepository() {
                     }
 
                     if (response.status.isSuccess()) {
-                        val result = mapper.invoke(response)
+                        val result = httpResponse.invoke(response)
                         emit(Resource.Success(result))
                     } else {
                         emit(

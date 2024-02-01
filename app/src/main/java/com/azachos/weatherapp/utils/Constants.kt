@@ -14,4 +14,8 @@ object Constants {
         const val GENERIC_ERROR_MESSAGE = "Something went wrong!"
         const val NO_CONNECTION_ERROR_MESSAGE = "No internet Connection!"
     }
+
+    object DATABASE {
+        const val APPLICATION_DATABASE_NAME = "weather_app_localDB"
+    }
 }

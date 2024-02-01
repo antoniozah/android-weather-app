@@ -11,6 +11,7 @@
         c. Connection restriction
 
     4. Execute HTTPS request
+        a. ex
     5. Successful request
         a. Convert Response to DAO
         b. Update insert (for Local DB)

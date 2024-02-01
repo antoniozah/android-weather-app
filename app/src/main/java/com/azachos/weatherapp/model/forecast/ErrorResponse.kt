@@ -1,4 +1,4 @@
-package com.azachos.weatherapp.model
+package com.azachos.weatherapp.model.forecast
 
 import kotlinx.serialization.Serializable
 
